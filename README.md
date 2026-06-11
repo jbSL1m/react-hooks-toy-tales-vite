@@ -31,7 +31,7 @@ be stored.
 
 - _When the `ToyForm` is submitted_, make a POST request to `/toys` to save a
   new toy to the server. Using the ideas of controlled form and inverse data
-  flow, think about how to render a new `ToyCard` for the toy that you created.
+  flow, think about how to render a new `ToyCard` for the toy that you created
 
 - _When the `Donate to Goodwill` button is clicked_, make a DELETE request to
   `/toys/:id` with the ID of the toy that was clicked to delete the toy from the
@@ -42,3 +42,52 @@ be stored.
   should be sent in the body of the PATCH request, as a object:
   `{ likes: 10 }`), to update the toy on the server. Clicking on the button
   should also increase the number of likes on the DOM.
+
+## About this implementation
+
+This repository contains a small React app that implements the Toy Tales
+exercise. The app implements the required behavior:
+
+- Fetches all toys from `GET /toys` on load and renders a `ToyCard` for each.
+- Adds a new toy via `POST /toys` when the `ToyForm` is submitted.
+- Deletes a toy via `DELETE /toys/:id` when the "Donate to GoodWill" button
+  is clicked and removes it from the DOM.
+- Increments likes via `PATCH /toys/:id` (body: `{ likes: <number> }`) when
+  the like button is clicked and updates the UI with the server response.
+
+The components responsible for the functionality are:
+
+- [src/components/App.jsx](src/components/App.jsx) — application state and
+  handlers for fetching, adding, deleting, and liking toys.
+- [src/components/ToyContainer.jsx](src/components/ToyContainer.jsx) — maps the
+  `toys` array to `ToyCard` components.
+- [src/components/ToyCard.jsx](src/components/ToyCard.jsx) — presents a single
+  toy, and calls parent handlers to delete or like the toy.
+- [src/components/ToyForm.jsx](src/components/ToyForm.jsx) — controlled form
+  that submits new toy data to the parent.
+- [db.json](db.json) — sample toy data used by `json-server`.
+
+## Setup & Run
+
+Install dependencies and start the fake JSON API and the React dev server in
+separate terminals:
+
+```bash
+npm install
+npm run server   # starts json-server on http://localhost:3001
+npm run dev      # starts React app at http://localhost:3000
+```
+
+Run tests with:
+
+```bash
+npx vitest --run --globals
+```
+
+The project scripts available in `package.json`:
+
+- `dev` — start Vite dev server
+- `server` — start `json-server` serving `db.json` on port 3001
+- `test` — run the test suite (uses Vitest)
+
+If you'd like, I can push the latest commit to your remote repository.
